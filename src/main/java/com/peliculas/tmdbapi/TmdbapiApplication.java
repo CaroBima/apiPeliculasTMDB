@@ -17,10 +17,7 @@ public class TmdbapiApplication {
 		System.out.println(tmdbApiKey);
 		System.out.println(valor);
 
-		Map<String, String> env = System.getenv();
-		for (String key : env.keySet()) {
-			System.out.println(key + ": " + env.get(key));
-		}
+
 
 	}
 
