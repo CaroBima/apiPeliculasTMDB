@@ -6,6 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Map;
 
+/**
+ * Api que consume la api de The Movie DataBase (https://www.themoviedb.org/)
+ * @author Caro Bima
+ * @version 1.0
+ */
 @SpringBootApplication
 public class TmdbapiApplication {
 
