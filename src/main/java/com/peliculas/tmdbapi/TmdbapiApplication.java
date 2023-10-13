@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Api que consume la api de The Movie DataBase (https://www.themoviedb.org/)
  * @author Caro Bima
- * @version 1.0
+ * @version 0.0.1-SNAPSHOT
  */
 @SpringBootApplication
 public class TmdbapiApplication {

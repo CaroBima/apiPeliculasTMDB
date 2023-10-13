@@ -76,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return new BCryptPasswordEncoder();
     }
 
-   /*
+
     @Bean
     @Override
     protected UserDetailsService userDetailsService(){
@@ -98,5 +98,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return userDetailsManager;
     }
 
-    */
+
 }

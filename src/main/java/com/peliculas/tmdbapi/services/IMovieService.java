@@ -2,6 +2,7 @@ package com.peliculas.tmdbapi.services;
 
 import com.peliculas.tmdbapi.model.Movie;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public interface IMovieService {
      * @param title Título de la película que se desea obtener.
      * @return La película correspondiente al título especificado, o {@code null} si no se encuentra.
      */
-    public Movie getMovie(String title);
+    public Movie getMovie(String title) throws IOException, InterruptedException;
 
     /**
      * Permite guardar una película en la base de datos.

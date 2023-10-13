@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class MovieController {
          *         o ResponseEntity con estado 404 si la película no se encuentra.
          */
         @GetMapping("/{title}")
-        public ResponseEntity<Movie> getMovie(@PathVariable String title) {
+        public ResponseEntity<Movie> getMovie(@PathVariable String title) throws IOException, InterruptedException {
             // Lógica para obtener información de una película por título
             return ResponseEntity.ok(movieService.getMovie(title));
         }

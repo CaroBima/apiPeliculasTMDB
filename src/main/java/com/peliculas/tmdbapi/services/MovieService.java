@@ -1,8 +1,15 @@
 package com.peliculas.tmdbapi.services;
 
 import com.peliculas.tmdbapi.model.Movie;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 /**
@@ -15,13 +22,38 @@ import java.util.List;
 @Service
 public class MovieService implements  IMovieService{
 
+    private final String tmdbUrl;
+    private final String tmdbApiKey;
+    private final String tmdbApiToken;
+
+    @Autowired
+    public MovieService(@Value("${api.tmdb.url}") String tmdbUrl,
+                      @Value("${APIKEYPELICULASTMDB}") String tmdbApiKey,
+                      @Value("${APITOKENPELICULASTMDB}") String tmdbApiToken) {
+        this.tmdbUrl = tmdbUrl;
+        this.tmdbApiKey = tmdbApiKey;
+        this.tmdbApiToken = tmdbApiToken;
+    }
+
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public Movie getMovie(String title) {
+    public Movie getMovie(String title) throws IOException, InterruptedException {
         // La implementación de la lógica para obtener una película por su título
-        // aún no está definida. Se devuelve null temporalmente.
+        // aún no está completa. Por ahora se conecta y trae la info de una pelicula preseteada
+        // Se devuelve null temporalmente.
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(this.tmdbUrl + "movie/9354?api_key=" + this.tmdbApiKey))
+                .header("accept", "application/json")
+                .header("Authorization", "Bearer " + this.tmdbApiToken)
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
         return null;
     }
 
