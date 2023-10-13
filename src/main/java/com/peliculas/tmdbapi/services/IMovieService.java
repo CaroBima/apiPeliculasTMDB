@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface IMovieService {
     /**
-     * Obtiene una película por su título.
+     * Obtiene una película de la api externa buscándola por su título.
      *
      * @param title Título de la película que se desea obtener.
      * @return La película correspondiente al título especificado, o {@code null} si no se encuentra.
