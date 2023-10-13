@@ -19,6 +19,8 @@ Api utilizada: https://developer.themoviedb.org/
 - [The Movie Database](https://developer.themoviedb.org/)
 - MySql connector 8.0.11
 - Swagger
+- Lombok
+- Spring Security
 
 
 ## Instalación
