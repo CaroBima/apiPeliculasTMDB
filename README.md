@@ -6,9 +6,10 @@ Microservicio que consume la api de películas de TMDB.
 
 Api utilizada: https://developer.themoviedb.org/
 
-## Funcionalidades (aún en desarrollo)
-- Permite obtener una película buscandola por el nombre
-- Guarda un listado de las películas que han sido previamente consultadas
+## Endpoints
+`/movies/{title}`: permite obtener la información de una película buscándola por su nombre.
+
+`/movies/saved`: Devuelve un listado con todas las películas que han sido previamente consultadas
 
 ## Tecnologías
 
@@ -32,17 +33,12 @@ Api utilizada: https://developer.themoviedb.org/
 El proyecto se encuentra en estado de desarrollo activo y actualmente está en la versión 0.0.1-SNAPSHOT. 
 
 <!--
-## Requisitos Previos
+Uso
+Instrucciones sobre cómo utilizar la API. Incluye ejemplos de solicitudes y respuestas si es relevante.
+
+## Funcionalidades (aún en desarrollo)
+- Permite obtener una película buscandola por el nombre
+- Guarda un listado de las películas que han sido previamente consultadas
 
 
-## Instalación
-Instrucciones sobre cómo instalar y configurar el proyecto en un entorno local.
-
-
-
-```bash
-# Ejemplo de comandos de instalación
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
-# Otros comandos de instalación si es necesario
 -->
