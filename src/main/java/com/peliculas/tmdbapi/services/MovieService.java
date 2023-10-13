@@ -13,6 +13,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,14 +55,17 @@ public class MovieService implements  IMovieService{
     @Override
     public Movie getMovie(String title) throws IOException, InterruptedException {
 
-        //falta cambiar para que traiga la pelicula cuyo titulo se trae por parámetro
+        //Trae una lista de peliculas, falta agregarlas a un listado y devolver el listado.
+        //Falta revisar si es necesario tambien modificar para que devuelva una lista
 
         ObjectMapper objectMapper = new ObjectMapper(); //utilizado para mapear el resultado devuelto por la api externa en un objeto Movie
         Movie movieApiExt = new Movie();
+        List<Movie> movieListReturned = new ArrayList<Movie>();
+
 
         //trae la info de la api externa
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.tmdbUrl + "movie/9354?api_key=" + this.tmdbApiKey +"&language=es-LA"))
+                .uri(URI.create(this.tmdbUrl + "search/movie?query="+title +"&include_adult=false&language=es-LA&page=1&api_key=" + this.tmdbApiKey ))
                 .header("accept", "application/json")
                 .header("Authorization", "Bearer " + this.tmdbApiToken)
                 .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -70,10 +74,14 @@ public class MovieService implements  IMovieService{
 
         try { //Parseo el resultado traido a una Movie
             movieApiExt = objectMapper.readValue(response.body(), Movie.class);
+
+
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
+        System.out.println(response.body());
         return movieApiExt;
     }
 
