@@ -9,23 +9,52 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador REST que maneja las operaciones relacionadas con películas.
+ * Proporciona endpoints para obtener información de películas de la api externa, guardar películas y
+ * obtener la lista de películas guardadas en la base de datos.
+ *
+ * @see Movie
+ * @see IMovieService
+ */
+
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
 
         private final IMovieService movieService;
 
+        /**
+         * Constructor que inyecta la dependencia del servicio de películas.
+         *
+         * @param movieService Servicio de películas que se utilizará en el controlador.
+         */
         @Autowired
         public MovieController(IMovieService movieService) {
             this.movieService = movieService;
         }
 
+
+        /**
+         * Obtiene información de una película buscándola por su título.
+         *
+         * @param title Título de la película cuya información se desea obtener.
+         * @return ResponseEntity con la película correspondiente al título especificado
+         *         o ResponseEntity con estado 404 si la película no se encuentra.
+         */
         @GetMapping("/{title}")
         public ResponseEntity<Movie> getMovie(@PathVariable String title) {
             // Lógica para obtener información de una película por título
             return ResponseEntity.ok(movieService.getMovie(title));
         }
 
+
+        /**
+         * Guarda una película.
+         *
+         * @param movie Película que se va a guardar en la base de datos.
+         * @return ResponseEntity con estado 201 (CREATED) si la película se guarda con éxito.
+         */
         @PostMapping
         public ResponseEntity<Void> saveMovie(@RequestBody Movie movie) {
             // Permitirá guardar una película en la bbdd
@@ -33,6 +62,13 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
 
+
+        /**
+         * Obtiene la lista de películas previamente consultadas y que fueron guardadas en la base de datos.
+         *
+         * @return ResponseEntity con la lista de películas guardadas o ResponseEntity con
+         *         estado 404 si no hay películas guardadas.
+         */
         @GetMapping("/saved")
         public ResponseEntity<List<Movie>> getSavedMovies() {
             // Permitirá obtener la lista de películas guardadas
