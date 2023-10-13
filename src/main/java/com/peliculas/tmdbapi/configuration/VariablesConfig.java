@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Clase que permite tomar las variables de entorno para que puedan ser utilizadas desde los servicios.
+ * Clase de configuración que permite tomar las variables de entorno para que puedan ser utilizadas desde los servicios.
  */
 @Getter
 @Configuration
