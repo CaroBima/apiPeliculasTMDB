@@ -13,8 +13,10 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 /**
- * Implementación de la interfaz {@link IMovieService} que proporciona lógica
- * para interactuar con películas en un servicio.
+ * Implementación de la interfaz {@link IMovieService}.
+ * MovieService es un servicio que interactúa con la API de The Movie Database (TMDb).
+ * Proporciona métodos para obtener información de películas  de la api externa, guardar las películas consultadas
+ * en la base de datos y consultar las películas guardadas allí.
  *
  * @see IMovieService
  * @see Movie
@@ -26,6 +28,13 @@ public class MovieService implements  IMovieService{
     private final String tmdbApiKey;
     private final String tmdbApiToken;
 
+    /**
+     * Constructor para la clase MovieService.
+     *
+     * @param tmdbUrl     La URL base de la API de The Movie Database.
+     * @param tmdbApiKey  La clave API utilizada para autenticar con la API de The Movie Database.
+     * @param tmdbApiToken El token API utilizado para autenticar con la API de The Movie Database.
+     */
     @Autowired
     public MovieService(@Value("${api.tmdb.url}") String tmdbUrl,
                       @Value("${APIKEYPELICULASTMDB}") String tmdbApiKey,
