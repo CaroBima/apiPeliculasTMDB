@@ -1,5 +1,8 @@
 package com.peliculas.tmdbapi.services;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.peliculas.tmdbapi.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,20 +53,28 @@ public class MovieService implements  IMovieService{
      */
     @Override
     public Movie getMovie(String title) throws IOException, InterruptedException {
-        // La implementación de la lógica para obtener una película por su título
-        // aún no está completa. Por ahora se conecta y trae la info de una pelicula preseteada
-        // Se devuelve null temporalmente.
 
+        //falta cambiar para que traiga la pelicula cuyo titulo se trae por parámetro
+
+        ObjectMapper objectMapper = new ObjectMapper(); //utilizado para mapear el resultado devuelto por la api externa en un objeto Movie
+        Movie movieApiExt = new Movie();
+
+        //trae la info de la api externa
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.tmdbUrl + "movie/9354?api_key=" + this.tmdbApiKey))
+                .uri(URI.create(this.tmdbUrl + "movie/9354?api_key=" + this.tmdbApiKey +"&language=es-LA"))
                 .header("accept", "application/json")
                 .header("Authorization", "Bearer " + this.tmdbApiToken)
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
-        return null;
+        try { //Parseo el resultado traido a una Movie
+            movieApiExt = objectMapper.readValue(response.body(), Movie.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return movieApiExt;
     }
 
     /**
