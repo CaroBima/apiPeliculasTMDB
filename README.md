@@ -6,7 +6,7 @@ Microservicio que consume la api de películas de TMDB.
 
 Api utilizada: https://developer.themoviedb.org/
 
-## Funcionalidades
+## Funcionalidades (aún en desarrollo)
 - Permite obtener una película buscandola por el nombre
 - Guarda un listado de las películas que han sido previamente consultadas
 
