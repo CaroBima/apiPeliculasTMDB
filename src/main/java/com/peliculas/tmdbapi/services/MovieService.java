@@ -58,7 +58,9 @@ public class MovieService implements  IMovieService{
     public List<Movie> getMovie(String title) throws IOException, InterruptedException {
 
         //Trae una lista de peliculas, falta agregarlas a un listado y devolver el listado.
-        //Falta revisar si es necesario tambien modificar para que devuelva una lista
+        //Falta guardar las peliculas en la base de datos y pasar solo los datos del dto a la controller
+        //falta además validar si trae resultados o no, cuantas paginas de resultados trae y recorrer las paginas para
+        // traer todas las películas (ahora solo recupera la primera pagina)
 
         ObjectMapper objectMapper = new ObjectMapper(); //utilizado para mapear el resultado devuelto por la api externa en un objeto Movie
         Movies movieListApiExt = new Movies();
