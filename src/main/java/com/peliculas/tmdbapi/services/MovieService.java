@@ -65,18 +65,18 @@ public class MovieService implements  IMovieService{
         ObjectMapper objectMapper = new ObjectMapper(); //utilizado para mapear el resultado devuelto por la api externa en un objeto Movie
         Movies movieListApiExt = new Movies();
         List<Movie> movieListReturned = new ArrayList<Movie>();
+        int resultPage = 1; //para recorrer las paginas de resultados
 
+        do {
+            //trae la info de la api externa
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.tmdbUrl + "search/movie?query=" + title + "&include_adult=false&language=es-LA&page=" + resultPage + "&api_key=" + this.tmdbApiKey))
+                    .header("accept", "application/json")
+                    .header("Authorization", "Bearer " + this.tmdbApiToken)
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        //trae la info de la api externa
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(this.tmdbUrl + "search/movie?query="+title +"&include_adult=false&language=es-LA&page=1&api_key=" + this.tmdbApiKey ))
-                .header("accept", "application/json")
-                .header("Authorization", "Bearer " + this.tmdbApiToken)
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
-        try { //Parseo el resultado traido a una Movie
             movieListApiExt = objectMapper.readValue(response.body(), Movies.class);
 
             //recorro la lista de movies devuelta por la api y guardo cada pelicula en la lista de peliculas
@@ -94,11 +94,11 @@ public class MovieService implements  IMovieService{
                         return movie;
                     })
                     .collect(Collectors.toList());
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
 
-        System.out.println(response.body());
+            resultPage++;
+
+        } while (resultPage < movieListApiExt.getTotal_pages());
+
         return movieListReturned;
     }
 
