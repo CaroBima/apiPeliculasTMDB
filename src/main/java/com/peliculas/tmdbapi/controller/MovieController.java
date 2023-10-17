@@ -44,7 +44,7 @@ public class MovieController {
          *         o ResponseEntity con estado 404 si la película no se encuentra.
          */
         @GetMapping("/{title}")
-        public ResponseEntity<Movie> getMovie(@PathVariable String title) throws IOException, InterruptedException {
+        public ResponseEntity<List<Movie>> getMovie(@PathVariable String title) throws IOException, InterruptedException {
             // Lógica para obtener información de una película por título
             return ResponseEntity.ok(movieService.getMovie(title));
         }

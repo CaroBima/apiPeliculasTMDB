@@ -20,7 +20,7 @@ public interface IMovieService {
      * @param title Título de la película que se desea obtener.
      * @return La película correspondiente al título especificado, o {@code null} si no se encuentra.
      */
-    public Movie getMovie(String title) throws IOException, InterruptedException;
+    public List<Movie> getMovie(String title) throws IOException, InterruptedException;
 
     /**
      * Permite guardar una película en la base de datos.

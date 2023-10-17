@@ -27,9 +27,10 @@ public class Movie {
     private String original_title;
     private String poster_path;// (foto)
     private String overview;
-    private Double budget;
     private Date release_date;
-    private Double revenue;
+    private Double vote_average;
+    private Long vote_count;
+
 
 
 }

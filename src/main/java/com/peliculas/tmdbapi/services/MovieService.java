@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.peliculas.tmdbapi.model.Movie;
+import com.peliculas.tmdbapi.model.Movies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementación de la interfaz {@link IMovieService}.
@@ -53,13 +55,13 @@ public class MovieService implements  IMovieService{
      * {@inheritDoc}
      */
     @Override
-    public Movie getMovie(String title) throws IOException, InterruptedException {
+    public List<Movie> getMovie(String title) throws IOException, InterruptedException {
 
         //Trae una lista de peliculas, falta agregarlas a un listado y devolver el listado.
         //Falta revisar si es necesario tambien modificar para que devuelva una lista
 
         ObjectMapper objectMapper = new ObjectMapper(); //utilizado para mapear el resultado devuelto por la api externa en un objeto Movie
-        Movie movieApiExt = new Movie();
+        Movies movieListApiExt = new Movies();
         List<Movie> movieListReturned = new ArrayList<Movie>();
 
 
@@ -73,16 +75,29 @@ public class MovieService implements  IMovieService{
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
         try { //Parseo el resultado traido a una Movie
-            movieApiExt = objectMapper.readValue(response.body(), Movie.class);
+            movieListApiExt = objectMapper.readValue(response.body(), Movies.class);
 
-
-
+            //recorro la lista de movies devuelta por la api y guardo cada pelicula en la lista de peliculas
+            movieListReturned = movieListApiExt.getResults().stream()
+                    .map(oneMovie -> {
+                        Movie movie = new Movie();
+                        movie.setId(oneMovie.getId());
+                        movie.setTitle(oneMovie.getTitle());
+                        movie.setOriginal_title(oneMovie.getOriginal_title());
+                        movie.setPoster_path(oneMovie.getPoster_path());
+                        movie.setOverview(oneMovie.getOverview());
+                        movie.setRelease_date(oneMovie.getRelease_date());
+                        movie.setVote_average(oneMovie.getVote_average());
+                        movie.setVote_count(oneMovie.getVote_count());
+                        return movie;
+                    })
+                    .collect(Collectors.toList());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
         System.out.println(response.body());
-        return movieApiExt;
+        return movieListReturned;
     }
 
     /**
