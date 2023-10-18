@@ -39,7 +39,7 @@ public class MovieEntity {
     private String original_title;
 
     /**
-     * ruta de la imagen del poster
+     * Ruta de la imagen del poster
      */
     @Column(name="poster_path", nullable = true, length=250 )
     private String poster_path;// (foto)
