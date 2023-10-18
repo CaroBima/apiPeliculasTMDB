@@ -18,7 +18,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "movie")
-public class Movie {
+public class MovieEntity {
     /**
      * Clave primaria de la tabla
      */
