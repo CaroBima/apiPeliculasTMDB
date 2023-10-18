@@ -1,8 +1,12 @@
 package com.peliculas.tmdbapi.services;
 
+import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.peliculas.tmdbapi.entities.MovieEntity;
 import com.peliculas.tmdbapi.model.Movie;
 import com.peliculas.tmdbapi.model.Movies;
+import com.peliculas.tmdbapi.repository.IMovieRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,6 +53,8 @@ public class MovieService implements  IMovieService{
         this.tmdbApiToken = tmdbApiToken;
     }
 
+    @Autowired
+    IMovieRepository movieRepository;
 
     /**
      * {@inheritDoc}
@@ -88,6 +94,7 @@ public class MovieService implements  IMovieService{
                         movie.setRelease_date(oneMovie.getRelease_date());
                         movie.setVote_average(oneMovie.getVote_average());
                         movie.setVote_count(oneMovie.getVote_count());
+                        this.saveMovie(movie);
                         return movie;
                     })
                     .collect(Collectors.toList());
@@ -109,8 +116,11 @@ public class MovieService implements  IMovieService{
      */
     @Override
     public void saveMovie(Movie movie) {
-        // La implementación de la lógica para guardar una película
-        // aún no está definida.
+        // Falta manejo de las excepciones
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        movieRepository.save(modelMapper.map(movie , MovieEntity.class));
     }
 
     /**
