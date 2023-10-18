@@ -102,8 +102,6 @@ public class MovieService implements  IMovieService{
         } else {
             return movieListReturned; // Se encontraron películas, se devuelve el listado
         }
-
-
     }
 
     /**
