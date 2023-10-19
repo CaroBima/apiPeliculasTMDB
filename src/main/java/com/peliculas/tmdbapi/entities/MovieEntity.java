@@ -23,7 +23,8 @@ public class MovieEntity {
      * Clave primaria de la tabla
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @OrderBy("id ASC")
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**
