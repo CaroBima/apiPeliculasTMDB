@@ -1,8 +1,10 @@
 package com.peliculas.tmdbapi.services;
 
+import com.peliculas.tmdbapi.entities.MovieEntity;
 import com.peliculas.tmdbapi.model.Movie;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,14 +29,14 @@ public interface IMovieService {
      *
      * @param movie La película que se va a guardar.
      */
-    public void saveMovie(Movie movie);
+    public void saveMovie(Movie movie, String searchKeyword);
 
     /**
      * Obtiene la lista de películas guardadas en la base de datos.
      *
      * @return Lista de películas almacenadas en la base de datos.
      */
-    public List<Movie> getMoviesSaved();
+    public List<Movie> getMoviesSaved(LocalDateTime consultationDate);
 
 
 }

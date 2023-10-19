@@ -1,11 +1,11 @@
 package com.peliculas.tmdbapi.services;
 
-import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.peliculas.tmdbapi.entities.MovieEntity;
 import com.peliculas.tmdbapi.model.Movie;
 import com.peliculas.tmdbapi.model.Movies;
 import com.peliculas.tmdbapi.repository.IMovieRepository;
+import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +16,14 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +66,7 @@ public class MovieService implements  IMovieService{
      * {@inheritDoc}
      */
     @Override
-    public List<Movie> getMovie(String title) throws IOException, InterruptedException {
+    public List<Movie> getMovie(String titleSearched) throws IOException, InterruptedException {
 
         //Trae una lista de peliculas, falta agregarlas a un listado y devolver el listado.
         //Falta guardar las peliculas en la base de datos y pasar solo los datos del dto a la controller
@@ -69,7 +75,7 @@ public class MovieService implements  IMovieService{
         Movies movieListApiExt = new Movies();
         List<Movie> movieListReturned = new ArrayList<Movie>();
         int resultPage = 1; //para recorrer las paginas de resultados
-        String titleWhitoutSpaces = title.replace(" ", "%20");
+        String titleWhitoutSpaces = titleSearched.replace(" ", "%20");
 
         do {
             //trae la info de la api externa
@@ -95,7 +101,7 @@ public class MovieService implements  IMovieService{
                         movie.setRelease_date(oneMovie.getRelease_date());
                         movie.setVote_average(oneMovie.getVote_average());
                         movie.setVote_count(oneMovie.getVote_count());
-                        this.saveMovie(movie);
+                        this.saveMovie(movie, titleSearched);
                         return movie;
                     })
                     .collect(Collectors.toList());
@@ -116,21 +122,47 @@ public class MovieService implements  IMovieService{
      * {@inheritDoc}
      */
     @Override
-    public void saveMovie(Movie movie) {
-        // Falta manejo de las excepciones
-
+    public void saveMovie(Movie movie, String searchKeyword) {
         ModelMapper modelMapper = new ModelMapper();
 
-        movieRepository.save(modelMapper.map(movie , MovieEntity.class));
+        // Obtengo la fecha actual sin la hora
+        LocalDate currentDate = LocalDate.now();
+        //LocalDateTime fechaYHora = LocalDateTime.of(fechaActual, LocalTime.MIDNIGHT);
+
+
+        if(movie != null) {
+            MovieEntity movieEntity = modelMapper.map(movie, MovieEntity.class);
+            movieEntity.setConsultationDate(currentDate);
+            movieEntity.setSearch_keyword(searchKeyword);
+
+            //convierto la fecha para pasarla solo yyyy/mm/dd, sin horas. Valido previamente que no sea null la fecha para que no tire exception
+            if(movie.getRelease_date() != null) {
+                Date releaseDateAsDate = movie.getRelease_date();
+                LocalDate releaseDate = releaseDateAsDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                movieEntity.setRelease_date(releaseDate);
+            }
+            
+            movieRepository.save(movieEntity);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Movie> getMoviesSaved() {
+    public List<Movie> getMoviesSaved(LocalDateTime consultationDate) {
         // La implementación de la lógica para obtener la lista de películas
         // guardadas aún no está definida. Se devuelve null temporalmente.
-        return null;
+        ModelMapper modelMapper = new ModelMapper();
+        List<Movie> allMovies = new ArrayList<>();
+
+        List<MovieEntity> recoveredDbMovies = movieRepository.findByConsultationDate(consultationDate);
+
+        if(recoveredDbMovies != null || !recoveredDbMovies.isEmpty()) {
+            for (int i = 0; i < recoveredDbMovies.size(); i++) {
+                allMovies.add(modelMapper.map(recoveredDbMovies.get(i), Movie.class));
+            }
+        }
+        return  allMovies;
     }
 }

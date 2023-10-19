@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -58,8 +60,8 @@ public class MovieEntity {
      * Fecha de lanzamiento de la película.
      */
     @Column (name="release_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date release_date;
+    //@Temporal(TemporalType.TIMESTAMP)
+    private LocalDate release_date;
 
     /**
      * Promedio de calificaciones de los usuarios de tmdb.
@@ -73,4 +75,16 @@ public class MovieEntity {
     @Column (name="vote_count")
     private Long vote_count;
 
+    /**
+     * Fecha en la que se realizó la consulta.
+     */
+    @Column (name="consultationDate")
+    //@Temporal(TemporalType.DATE)
+    private LocalDate consultationDate;
+
+    /**
+     * Palabra clave utilizada para la búsqueda
+     */
+    @Column (name="search_keyword")
+    private String search_keyword;
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class MovieController {
          * @return ResponseEntity con la película correspondiente al título especificado
          *         o ResponseEntity con estado 404 si la película no se encuentra.
          */
-        @GetMapping("/{title}")
+        @GetMapping("/search/{title}")
         public ResponseEntity<List<Movie>> getMovie(@PathVariable String title) throws IOException, InterruptedException {
             // Lógica para obtener información de una película por título
             return ResponseEntity.ok(movieService.getMovie(title));
@@ -59,8 +60,10 @@ public class MovieController {
         @PostMapping
         public ResponseEntity<Void> saveMovie(@RequestBody Movie movie) {
             // Permitirá guardar una película en la bbdd
-            movieService.saveMovie(movie);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            //falta definir logica
+            //movieService.saveMovie(movie);
+            //return ResponseEntity.status(HttpStatus.CREATED).build();
+            return null;
         }
 
 
@@ -70,10 +73,10 @@ public class MovieController {
          * @return ResponseEntity con la lista de películas guardadas o ResponseEntity con
          *         estado 404 si no hay películas guardadas.
          */
-        @GetMapping("/saved")
-        public ResponseEntity<List<Movie>> getSavedMovies() {
+        @GetMapping("/saved/{consultationDate}")
+        public ResponseEntity<List<Movie>> getSavedMovies(@PathVariable LocalDateTime consultationDate) {
             // Permitirá obtener la lista de películas guardadas
-            return ResponseEntity.ok(movieService.getMoviesSaved());
+            return ResponseEntity.ok(movieService.getMoviesSaved(consultationDate));
         }
 
 }
