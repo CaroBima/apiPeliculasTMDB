@@ -69,11 +69,12 @@ public class MovieService implements  IMovieService{
         Movies movieListApiExt = new Movies();
         List<Movie> movieListReturned = new ArrayList<Movie>();
         int resultPage = 1; //para recorrer las paginas de resultados
+        String titleWhitoutSpaces = title.replace(" ", "%20");
 
         do {
             //trae la info de la api externa
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(this.tmdbUrl + "search/movie?query=" + title + "&include_adult=false&language=es-LA&page=" + resultPage + "&api_key=" + this.tmdbApiKey))
+                    .uri(URI.create(this.tmdbUrl + "search/movie?query=" + titleWhitoutSpaces + "&include_adult=false&language=es-LA&page=" + resultPage + "&api_key=" + this.tmdbApiKey))
                     .header("accept", "application/json")
                     .header("Authorization", "Bearer " + this.tmdbApiToken)
                     .method("GET", HttpRequest.BodyPublishers.noBody())
