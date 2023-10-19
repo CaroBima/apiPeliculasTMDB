@@ -7,20 +7,21 @@ Microservicio que consume la api de películas de TMDB.
 Api utilizada: https://developer.themoviedb.org/
 
 ## Endpoints
-`/movies/{title}`: permite obtener la información de una película buscándola por su nombre.
+`/movies/{title}`: permite obtener la información de una película buscándola por su nombre y guarda los resultados en la base de datos.
 
-`/movies/saved`: Devuelve un listado con todas las películas que han sido previamente consultadas
+`/movies/saved/{consultationDate}`: Devuelve las películas que están guardadas en la base de datos que corresponden a la fecha consultada
 
 ## Tecnologías
 
 - Spring Boot 2.6.6
 - Maven
 - Java 11
-- [The Movie Database](https://developer.themoviedb.org/)
-- MySql connector 8.0.11
+- Hibernate
+- Spring Security
 - Swagger
 - Lombok
-- Spring Security
+- MySql connector 8.0.11
+- [The Movie Database API](https://developer.themoviedb.org/)
 
 
 ## Instalación
