@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -68,15 +70,20 @@ public class MovieController {
 
 
         /**
-         * Obtiene la lista de películas previamente consultadas y que fueron guardadas en la base de datos.
+         * Obtiene la lista de películas previamente consultadas y que fueron guardadas en la base de datos,
+         * buscándolas por la fecha en la que se realizó la consulta
          *
+         * @param consultationDate fecha en la que se realizo la consulta a la api externa
          * @return ResponseEntity con la lista de películas guardadas o ResponseEntity con
          *         estado 404 si no hay películas guardadas.
          */
         @GetMapping("/saved/{consultationDate}")
-        public ResponseEntity<List<Movie>> getSavedMovies(@PathVariable LocalDateTime consultationDate) {
-            // Permitirá obtener la lista de películas guardadas
-            return ResponseEntity.ok(movieService.getMoviesSaved(consultationDate));
+        public ResponseEntity<List<Movie>> getSavedMovies(@PathVariable String consultationDate) {
+                //convierte la fecha pasada como String en LocalDate
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate consultDate = LocalDate.parse(consultationDate, formatter);
+
+            return ResponseEntity.ok(movieService.getMoviesSaved(consultDate));
         }
 
 }

@@ -4,6 +4,7 @@ import com.peliculas.tmdbapi.entities.MovieEntity;
 import com.peliculas.tmdbapi.model.Movie;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +18,9 @@ import java.util.List;
 
 public interface IMovieService {
     /**
-     * Obtiene una película de la api externa buscándola por su título.
+     * Obtiene un listado de películas de la api externa realizdo una busqueda por un título ingresado por el usuario.
+     * Una vez que tiene el listado, guarda las películas en la base de datos agregando a los datos traídos la
+     * fecha de consulta y la palabra clave utilizada en la búsqueda
      *
      * @param title Título de la película que se desea obtener.
      * @return La película correspondiente al título especificado, o {@code null} si no se encuentra.
@@ -36,7 +39,7 @@ public interface IMovieService {
      *
      * @return Lista de películas almacenadas en la base de datos.
      */
-    public List<Movie> getMoviesSaved(LocalDateTime consultationDate);
+    public List<Movie> getMoviesSaved(LocalDate consultationDate);
 
 
 }

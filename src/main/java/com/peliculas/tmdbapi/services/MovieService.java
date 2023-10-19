@@ -141,7 +141,7 @@ public class MovieService implements  IMovieService{
                 LocalDate releaseDate = releaseDateAsDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 movieEntity.setRelease_date(releaseDate);
             }
-            
+
             movieRepository.save(movieEntity);
         }
     }
@@ -150,7 +150,7 @@ public class MovieService implements  IMovieService{
      * {@inheritDoc}
      */
     @Override
-    public List<Movie> getMoviesSaved(LocalDateTime consultationDate) {
+    public List<Movie> getMoviesSaved(LocalDate consultationDate) {
         // La implementación de la lógica para obtener la lista de películas
         // guardadas aún no está definida. Se devuelve null temporalmente.
         ModelMapper modelMapper = new ModelMapper();
