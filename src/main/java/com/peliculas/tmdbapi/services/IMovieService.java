@@ -1,11 +1,9 @@
 package com.peliculas.tmdbapi.services;
 
-import com.peliculas.tmdbapi.entities.MovieEntity;
-import com.peliculas.tmdbapi.model.Movie;
+import com.peliculas.tmdbapi.model.movies.Movie;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -41,5 +39,7 @@ public interface IMovieService {
      */
     public List<Movie> getMoviesSaved(LocalDate consultationDate);
 
+
+    public List<Movie> getUpcomingMovies() throws IOException, InterruptedException;
 
 }

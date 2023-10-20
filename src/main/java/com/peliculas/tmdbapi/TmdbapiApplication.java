@@ -3,6 +3,7 @@ package com.peliculas.tmdbapi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import java.util.Map;
  * @version 0.0.1-SNAPSHOT
  */
 @SpringBootApplication
+@ComponentScan(basePackages = "com.peliculas.tmdbapi")
 public class TmdbapiApplication {
 
 	public static void main(String[] args) {

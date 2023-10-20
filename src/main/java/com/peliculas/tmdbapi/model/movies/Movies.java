@@ -1,4 +1,4 @@
-package com.peliculas.tmdbapi.model;
+package com.peliculas.tmdbapi.model.movies;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

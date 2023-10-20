@@ -37,11 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .csrf().disable()
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/clima", "/clima/{id}").authenticated()
-                .antMatchers(HttpMethod.GET, "/clima/data").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/clima/savedata","/clima/borrardata", "/clima/putdata").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/clima/borrardata", "/clima/putdata").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT,  "/clima/putdata").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/upcoming", "/search/{title}").authenticated()
+                .antMatchers(HttpMethod.GET, "/saved/{consultationDate}").hasRole("ADMIN")
+                //.antMatchers(HttpMethod.POST, "/clima/savedata","/clima/borrardata", "/clima/putdata").hasRole("ADMIN")
+                //.antMatchers(HttpMethod.DELETE, "/clima/borrardata", "/clima/putdata").hasRole("ADMIN")
+                //.antMatchers(HttpMethod.PUT,  "/clima/putdata").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                 .anyRequest()
                 //.permitAll()
@@ -77,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     }
 
 
+/*
     @Bean
     @Override
     protected UserDetailsService userDetailsService(){
@@ -98,5 +99,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return userDetailsManager;
     }
 
-
+*/
 }

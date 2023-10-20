@@ -1,15 +1,13 @@
 package com.peliculas.tmdbapi.controller;
 
-import com.peliculas.tmdbapi.model.Movie;
+import com.peliculas.tmdbapi.model.movies.Movie;
 import com.peliculas.tmdbapi.services.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -85,5 +83,11 @@ public class MovieController {
 
             return ResponseEntity.ok(movieService.getMoviesSaved(consultDate));
         }
+
+        @GetMapping("/upcoming")
+        public ResponseEntity<List<Movie>> getUpcomingMovies() throws IOException, InterruptedException {
+                return ResponseEntity.ok(movieService.getUpcomingMovies());
+        }
+
 
 }

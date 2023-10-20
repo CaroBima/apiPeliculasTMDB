@@ -2,10 +2,9 @@ package com.peliculas.tmdbapi.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.peliculas.tmdbapi.entities.MovieEntity;
-import com.peliculas.tmdbapi.model.Movie;
-import com.peliculas.tmdbapi.model.Movies;
-import com.peliculas.tmdbapi.repository.IMovieRepository;
-import org.apache.tomcat.jni.Local;
+import com.peliculas.tmdbapi.model.movies.Movie;
+import com.peliculas.tmdbapi.model.movies.Movies;
+import com.peliculas.tmdbapi.repository.movies.IMovieRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,10 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -164,5 +160,20 @@ public class MovieService implements  IMovieService{
             }
         }
         return  allMovies;
+    }
+
+    @Override
+    public List<Movie> getUpcomingMovies() throws IOException, InterruptedException {
+
+        //retorna null por el momento hasta que este definida la logica
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(this.tmdbUrl + "movie/upcoming?language=es-LA&page=1"))
+                .header("accept", "application/json")
+                .header("Authorization", "Bearer " + this.tmdbApiToken)
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+        return null;
     }
 }
