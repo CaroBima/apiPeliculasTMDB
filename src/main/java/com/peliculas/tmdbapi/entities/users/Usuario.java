@@ -1,4 +1,4 @@
-package com.peliculas.tmdbapi.entities;
+package com.peliculas.tmdbapi.entities.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
-import java.util.Collections;
 
 
 @Getter

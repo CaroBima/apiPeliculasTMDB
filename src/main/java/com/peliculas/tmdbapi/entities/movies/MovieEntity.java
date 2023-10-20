@@ -1,4 +1,4 @@
-package com.peliculas.tmdbapi.entities;
+package com.peliculas.tmdbapi.entities.movies;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

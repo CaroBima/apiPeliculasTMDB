@@ -1,7 +1,7 @@
 package com.peliculas.tmdbapi.services;
 
 
-import com.peliculas.tmdbapi.entities.Usuario;
+import com.peliculas.tmdbapi.entities.users.Usuario;
 
 public interface IUsuarioService {
     public Usuario crearUsuario(Usuario usuario);

@@ -1,4 +1,4 @@
-package com.peliculas.tmdbapi.entities;
+package com.peliculas.tmdbapi.entities.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.peliculas.tmdbapi.services;
 
-import com.peliculas.tmdbapi.entities.Usuario;
-import com.peliculas.tmdbapi.repository.usuarios.IUsuarioRepository;
+import com.peliculas.tmdbapi.entities.users.Usuario;
+import com.peliculas.tmdbapi.repository.users.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

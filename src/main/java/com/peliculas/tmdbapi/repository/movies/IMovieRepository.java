@@ -1,6 +1,6 @@
 package com.peliculas.tmdbapi.repository.movies;
 
-import com.peliculas.tmdbapi.entities.MovieEntity;
+import com.peliculas.tmdbapi.entities.movies.MovieEntity;
 import com.peliculas.tmdbapi.model.movies.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -3,7 +3,7 @@ package com.peliculas.tmdbapi.controller;
 
 import com.peliculas.tmdbapi.configuration.SecurityConfig;
 import com.peliculas.tmdbapi.dto.UsuarioLoginDto;
-import com.peliculas.tmdbapi.entities.Usuario;
+import com.peliculas.tmdbapi.entities.users.Usuario;
 import com.peliculas.tmdbapi.model.ResponseMessage;
 import com.peliculas.tmdbapi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package com.peliculas.tmdbapi.repository.usuarios;
+package com.peliculas.tmdbapi.repository.users;
 
-import com.peliculas.tmdbapi.entities.Usuario;
+import com.peliculas.tmdbapi.entities.users.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

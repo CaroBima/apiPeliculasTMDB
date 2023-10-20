@@ -1,7 +1,7 @@
 package com.peliculas.tmdbapi.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.peliculas.tmdbapi.entities.MovieEntity;
+import com.peliculas.tmdbapi.entities.movies.MovieEntity;
 import com.peliculas.tmdbapi.model.movies.Movie;
 import com.peliculas.tmdbapi.model.movies.Movies;
 import com.peliculas.tmdbapi.repository.movies.IMovieRepository;
