@@ -8,7 +8,7 @@ import com.peliculas.tmdbapi.repository.movies.IMovieRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -32,7 +32,8 @@ import java.util.stream.Collectors;
  * @see IMovieService
  * @see Movie
  */
-@Service
+@Component
+//@Service
 public class MovieService implements  IMovieService{
 
     private final String tmdbUrl;

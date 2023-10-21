@@ -1,6 +1,13 @@
 package com.peliculas.tmdbapi.configuration;
 
+import org.hibernate.jpa.boot.spi.EntityManagerFactoryBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -15,17 +22,23 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
-//@PropertySource({ "classpath:persistence-multiple-db.properties" })
+@PropertySource({ "classpath:persistence-multiple-db.properties" })
 @EnableJpaRepositories(
         basePackages = "com.peliculas.tmdbapi.repository.movies",
-        entityManagerFactoryRef = "productEntityManager",
-        transactionManagerRef = "productTransactionManager"
+        entityManagerFactoryRef = "moviesEntityManager",
+        transactionManagerRef = "moviesTransactionManager"
 )
 public class PersistenceMoviesConfiguration {
     @Autowired
     private Environment env;
-
+    @Bean
+    @ConfigurationProperties(prefix="spring.datasource")
+    public DataSource moviesDataSource() {
+        return DataSourceBuilder.create().build();
+    }
     @Bean
     public LocalContainerEntityManagerFactoryBean moviesEntityManager() {
         LocalContainerEntityManagerFactoryBean em
@@ -46,29 +59,9 @@ public class PersistenceMoviesConfiguration {
         return em;
     }
 
-    @Bean
-    public DataSource moviesDataSource() {
-
-        DriverManagerDataSource dataSource
-                = new DriverManagerDataSource();
-        dataSource.setDriverClassName(
-                env.getProperty("com.mysql.cj.jdbc.Driver"));
-        dataSource.setUrl(env.getProperty("jdbc:mysql://localhost:3306/peliculastmdb?seSSL=false&serverTimezone=UTC"));
-        dataSource.setUsername(env.getProperty("root"));
-        dataSource.setPassword(env.getProperty(""));
-        /*
-         dataSource.setDriverClassName(
-                env.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(env.getProperty("product.jdbc.url"));
-        dataSource.setUsername(env.getProperty("jdbc.user"));
-        dataSource.setPassword(env.getProperty("jdbc.pass"));
-         */
-
-        return dataSource;
-    }
 
     @Bean
-    public PlatformTransactionManager productTransactionManager() {
+    public PlatformTransactionManager moviesTransactionManager() {
 
         JpaTransactionManager transactionManager
                 = new JpaTransactionManager();

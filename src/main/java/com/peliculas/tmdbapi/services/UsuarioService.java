@@ -4,9 +4,11 @@ import com.peliculas.tmdbapi.entities.users.Usuario;
 import com.peliculas.tmdbapi.repository.users.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
+//@Service
 public class UsuarioService implements IUsuarioService{
     @Autowired
     IUsuarioRepository usuarioRepo;

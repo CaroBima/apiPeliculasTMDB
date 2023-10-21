@@ -24,6 +24,8 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
 
+
+        //@Qualifier("movieService")
         private final IMovieService movieService;
 
         /**

@@ -1,6 +1,7 @@
 package com.peliculas.tmdbapi.services;
 
 import com.peliculas.tmdbapi.model.movies.Movie;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.List;
  * @see Movie
  */
 
+@Service
 public interface IMovieService {
     /**
      * Obtiene un listado de películas de la api externa realizdo una busqueda por un título ingresado por el usuario.

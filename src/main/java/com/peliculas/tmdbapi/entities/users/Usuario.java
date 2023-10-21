@@ -13,6 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+//@Table(schema="clima")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

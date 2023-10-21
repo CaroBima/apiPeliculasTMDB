@@ -6,8 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
+
 
 /**
  * Representa una entidad de película en el sistema.
