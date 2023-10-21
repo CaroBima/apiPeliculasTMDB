@@ -37,9 +37,10 @@ public class PersistenceUserConfiguration {
     public DataSource userDataSource() {
         return DataSourceBuilder.create().build();
     }
-    @Bean
+
     @Primary
-    public LocalContainerEntityManagerFactoryBean userEntityManager() {
+    @Bean(name = "userEntityManager")
+     public LocalContainerEntityManagerFactoryBean userEntityManager() {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(userDataSource());
@@ -58,7 +59,19 @@ public class PersistenceUserConfiguration {
 
         return em;
     }
-/*
+
+    @Primary
+    @Bean(name = "userTransactionManager")
+    public PlatformTransactionManager userTransactionManager() {
+
+        JpaTransactionManager transactionManager
+                = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(
+                userEntityManager().getObject());
+        return transactionManager;
+    }
+
+    /*
     @Primary
     @Bean
     public DataSource userDataSource() {
@@ -74,15 +87,5 @@ public class PersistenceUserConfiguration {
         return dataSource;
     }
 */
-    @Primary
-    @Bean
-    public PlatformTransactionManager userTransactionManager() {
-
-        JpaTransactionManager transactionManager
-                = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(
-                userEntityManager().getObject());
-        return transactionManager;
-    }
 }
 

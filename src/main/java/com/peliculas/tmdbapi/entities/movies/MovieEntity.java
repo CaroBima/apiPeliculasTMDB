@@ -26,7 +26,7 @@ public class MovieEntity {
     @Id
     @OrderBy("id ASC")
     //@GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
 
     /**
      * Titulo de la película
