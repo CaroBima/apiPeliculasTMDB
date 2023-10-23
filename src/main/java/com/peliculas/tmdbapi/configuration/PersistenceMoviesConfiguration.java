@@ -1,86 +1,73 @@
 package com.peliculas.tmdbapi.configuration;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 @PropertySource({ "classpath:persistence-multiple-db.properties" })
+@EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "com.peliculas.tmdbapi.repository.movies",
-        entityManagerFactoryRef = "moviesEntityManager",
-        transactionManagerRef = "moviesTransactionManager"
+        //basePackageClasses = MovieEntity.class,
+        entityManagerFactoryRef = "movieEntityManagerFactory",
+        transactionManagerRef = "movieTransactionManager",
+        basePackages = "com.peliculas.tmdbapi.repository.movies"
 )
 public class PersistenceMoviesConfiguration {
+
     @Autowired
     private Environment env;
-    @Bean
-    @ConfigurationProperties(prefix="spring.datasource")
-    public DataSource moviesDataSource() {
-        return DataSourceBuilder.create().build();
+
+    @Primary
+    @Bean(name="movieDataSource")
+    public DataSource movieDataSource(){
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUrl(env.getProperty("movies.datasource.url"));
+        dataSource.setUsername(env.getProperty("movies.datasource.username"));
+        dataSource.setPassword(env.getProperty("movies.datasource.password"));
+        //dataSource.setDriverClassName(env.getProperty("movies.datasource.driver-class-name"));
+
+        return dataSource;
     }
 
-
-
-    @Bean(name = "moviesEntityManager")
-    public LocalContainerEntityManagerFactoryBean moviesManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em
-                = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(moviesDataSource());
-        em.setPackagesToScan(
-                new String[] { "com.peliculas.tmdbapi.model.movies" });
+    @Primary
+    @Bean(name= "movieEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource((movieDataSource()));
+        em.setPackagesToScan("com.peliculas.tmdbapi.entities.movies");
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        HashMap<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto",
-                env.getProperty("hibernate.hbm2ddl.auto"));
-        properties.put("hibernate.dialect",
-                env.getProperty("hibernate.dialect"));
-        em.setJpaPropertyMap(properties);
 
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("movies.jpa.datasource.hibernate.ddl-auto"));
+        properties.put("hibernate.dialect", env.getProperty("movies.jpa.datasource.database-platform"));
+
+        em.setJpaPropertyMap(properties);
         return em;
     }
 
+    @Primary
+    @Bean(name= "movieTransactionManager")
+    public PlatformTransactionManager transactionManager(){
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
 
-    @Bean(name = "moviesTransactionManager")
-    public PlatformTransactionManager moviesTransactionManager() {
-
-        JpaTransactionManager transactionManager
-                = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(
-                moviesManagerFactory().getObject());
         return transactionManager;
-    }
-
-    @Bean(name = "entityManagerFactory")
-    public EntityManagerFactory entityManagerFactory() {
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
-
-        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.peliculas.tmdbapi.model.movies");
-        factory.setDataSource(moviesDataSource());
-        factory.afterPropertiesSet();
-
-        return factory.getObject();
     }
 }

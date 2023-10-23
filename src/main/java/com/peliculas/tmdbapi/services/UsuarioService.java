@@ -27,6 +27,8 @@ public class UsuarioService implements IUsuarioService{
         Usuario usuarioSave = new Usuario();
         Usuario usuGuardado = new Usuario();
 
+
+
         //busco el usuario para ver si el nombre de usuario ya se encuentra registado
         try{
             usuGuardado = usuarioRepo.findByNombreUsuario(usuario.getNombreUsuario()).orElse(null);
@@ -66,6 +68,9 @@ public class UsuarioService implements IUsuarioService{
     public boolean logueoUsuario (Usuario usuario){
         boolean logueo = false;
         Usuario usuGuardado = new Usuario();
+
+        System.out.println(usuario.getNombreUsuario());
+        System.out.println(usuario.getContrasenia());
 
         try {
             usuGuardado = usuarioRepo.findByNombreUsuario(usuario.getNombreUsuario()).orElse(null); //busco el usuario por el nombre de usuario ingresado

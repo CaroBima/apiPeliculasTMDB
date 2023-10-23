@@ -16,10 +16,9 @@ import java.util.Map;
  * @author Caro Bima
  * @version 0.0.1-SNAPSHOT
  */
-//@SpringBootApplication(scanBasePackages = {"com.peliculas.tmdbapi"})
-//@EntityScan(basePackages = {"com.peliculas.tmdbapi.entities.movies", "com.peliculas.tmdbapi.entities.users"})
-@SpringBootApplication(scanBasePackages={"com.*"})
-@EnableJpaRepositories(basePackageClasses = {IUsuarioRepository.class, IMovieRepository.class})
+
+@SpringBootApplication
+//@ComponentScan("com.peliculas.tmdbapi")
 public class TmdbapiApplication {
 
 	public static void main(String[] args) {

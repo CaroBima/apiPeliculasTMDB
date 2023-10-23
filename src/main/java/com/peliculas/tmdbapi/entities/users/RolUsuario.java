@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-//@Table(schema="clima")
+@Table(name = "rol_usuario")
 public class RolUsuario {
 
     @Id
