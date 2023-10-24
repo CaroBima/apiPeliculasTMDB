@@ -57,6 +57,7 @@ public class PersistenceMoviesConfiguration {
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", env.getProperty("movies.jpa.datasource.hibernate.ddl-auto"));
         properties.put("hibernate.dialect", env.getProperty("movies.jpa.datasource.database-platform"));
+        //properties.put( "spring.jpa.properties.hibernate.globally_quoted_identifiers", env.getProperty("spring.jpa.properties.hibernate.globally_quoted_identifiers"));
 
         em.setJpaPropertyMap(properties);
         return em;

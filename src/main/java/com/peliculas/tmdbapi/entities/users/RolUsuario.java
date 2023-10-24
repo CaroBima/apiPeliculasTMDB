@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 import javax.persistence.*;
 
 @AllArgsConstructor
@@ -17,8 +18,9 @@ public class RolUsuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id_rolx_usuario")
     private long idRolxUsuario;
 
-    @Column(unique=true)
+    @Column(name = "nombre_rol", unique=true)
     private String nombreRol;
 }

@@ -34,10 +34,10 @@ public class PersistenceUserConfiguration {
     @Bean(name="userDataSource")
     public DataSource movieDataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl(env.getProperty("user.datasource.url"));
-        dataSource.setUsername(env.getProperty("user.datasource.username"));
-        dataSource.setPassword(env.getProperty("user.datasource.password"));
-        //dataSource.setDriverClassName(env.getProperty("user.datasource.driver-class-name"));
+        dataSource.setUrl(env.getProperty("users.datasource.url"));
+        dataSource.setUsername(env.getProperty("users.datasource.username"));
+        dataSource.setPassword(env.getProperty("users.datasource.password"));
+        //dataSource.setDriverClassName(env.getProperty("users.datasource.driver-class-name"));
 
         return dataSource;
     }
@@ -52,8 +52,9 @@ public class PersistenceUserConfiguration {
         em.setJpaVendorAdapter(vendorAdapter);
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", env.getProperty("user.jpa.datasource.hibernate.ddl-auto"));
-        properties.put("hibernate.dialect", env.getProperty("user.jpa.datasource.database-platform"));
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("users.jpa.datasource.hibernate.ddl-auto"));
+        properties.put("hibernate.dialect", env.getProperty("users.jpa.datasource.database-platform"));
+        //properties.put( "spring.jpa.properties.hibernate.globally_quoted_identifiers", env.getProperty("spring.jpa.properties.hibernate.globally_quoted_identifiers"));
 
         em.setJpaPropertyMap(properties);
         return em;
