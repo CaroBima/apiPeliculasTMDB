@@ -132,6 +132,8 @@ public class MovieService implements  IMovieService{
             movieEntity.setConsultationDate(currentDate);
             movieEntity.setSearch_keyword(searchKeyword);
 
+            System.out.println(movieEntity.getConsultationDate());
+
             //convierto la fecha para pasarla solo yyyy/mm/dd, sin horas. Valido previamente que no sea null la fecha para que no tire exception
             if(movie.getRelease_date() != null) {
                 Date releaseDateAsDate = movie.getRelease_date();
