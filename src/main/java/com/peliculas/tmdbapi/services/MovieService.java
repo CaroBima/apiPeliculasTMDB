@@ -49,8 +49,8 @@ public class MovieService implements  IMovieService{
      */
     @Autowired
     public MovieService(@Value("${api.tmdb.url}") String tmdbUrl,
-                      @Value("${APIKEYPELICULASTMDB}") String tmdbApiKey,
-                      @Value("${APITOKENPELICULASTMDB}") String tmdbApiToken) {
+                      @Value("${APIKEYPELICULASTMDB:nokey}") String tmdbApiKey,
+                      @Value("${APITOKENPELICULASTMDB:notoken}") String tmdbApiToken) {
         this.tmdbUrl = tmdbUrl;
         this.tmdbApiKey = tmdbApiKey;
         this.tmdbApiToken = tmdbApiToken;
