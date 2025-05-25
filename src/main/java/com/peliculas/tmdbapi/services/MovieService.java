@@ -1,6 +1,7 @@
 package com.peliculas.tmdbapi.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.peliculas.tmdbapi.dto.PeliculasResponseDTO;
 import com.peliculas.tmdbapi.entities.movies.MovieEntity;
 import com.peliculas.tmdbapi.model.movies.Movie;
 import com.peliculas.tmdbapi.model.movies.Movies;
@@ -15,6 +16,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -176,7 +178,25 @@ public class MovieService implements  IMovieService{
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-        return null;
+
+        String json = response.body();
+        ObjectMapper mapper = new ObjectMapper();
+        PeliculasResponseDTO peliculasResponseDTO = mapper.readValue(json, PeliculasResponseDTO.class);
+        List<Movie> listaPeliculas = peliculasResponseDTO.getListaPeliculas().stream().map(peliculaResponseDto -> {
+            Movie movie = new Movie();
+            movie.setId(peliculaResponseDto.getId());
+            movie.setTitle(peliculaResponseDto.getTitle());
+            movie.setOverview(peliculaResponseDto.getOverview());
+            movie.setRelease_date(peliculaResponseDto.getReleaseDate());
+            movie.setPoster_path(peliculaResponseDto.getPosterPath());
+            movie.setVote_average(peliculaResponseDto.getVoteAverage());
+            movie.setVote_count(peliculaResponseDto.getVoteCount());
+            return movie;
+        }).collect(Collectors.toList());
+
+        for (Movie p : listaPeliculas){
+            System.out.println(p.getTitle());
+        }
+        return listaPeliculas;
     }
 }
